@@ -1,0 +1,167 @@
+---
+title: "Event Handling"
+description: "Learn how to register and remove event handlers for Kintone events."
+---
+
+## Overview
+
+On this page, we introduce how handlers can be attached to various Kintone events. The different types of Kintone events are listed in the side menu.
+
+## Register Event Handlers - `kintone.events.on(type, handler)`
+
+Registers an event handler.
+
+### Available Pages
+
+- [Pages Where Kintone System-wide Customizations Are Applied](/docs/kintone/js-api/overview/kintone-js-api-specifications#pages-system-wide-customization)
+- Plug-in settings page
+
+### Function
+
+```
+kintone.events.on(type, handler)
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| type | String or Array of Strings | Yes | The event type or array of event types to which the event handler will bind. |
+| handler | Function(Object) | Yes | The handler that will run when the event is triggered. All event objects have an event type in their `type` property. By returning a `Promise` object in the event handler, the next operations can be processed after waiting for asynchronous processes to finish. |
+
+#### Events that support returning a `Promise` object
+
+**Record List Events**
+- [Onload Event](/docs/kintone/js-api/events/record-list-events/onload-event#onload-event-desktop)
+- [Inline Edit Event](/docs/kintone/js-api/events/record-list-events/inline-edit-event)
+- [Save Event](/docs/kintone/js-api/events/record-list-events/save-event)
+- [Save Success Event](/docs/kintone/js-api/events/record-list-events/save-success-event)
+- [Delete Event](/docs/kintone/js-api/events/record-list-events/delete-event)
+
+**Record Details Events**
+- [Onload Event](/docs/kintone/js-api/events/record-details-events/onload-event#onload-event-desktop)
+- [Delete Event](/docs/kintone/js-api/events/record-details-events/delete-event)
+- [Update Status Event](/docs/kintone/js-api/events/record-details-events/update-status-event)
+
+**Record Create Events**
+- [Onload Event](/docs/kintone/js-api/events/record-create-events/onload-event#onload-event-desktop)
+- [Save Event](/docs/kintone/js-api/events/record-create-events/save-event)
+- [Save Success Event](/docs/kintone/js-api/events/record-create-events/save-success-event)
+
+**Record Edit Events**
+- [Onload Event](/docs/kintone/js-api/events/record-edit-events/onload-event#onload-event-desktop)
+- [Save Event](/docs/kintone/js-api/events/record-edit-events/save-event)
+- [Save Success Event](/docs/kintone/js-api/events/record-edit-events/save-success-event)
+
+**Record Print Events**
+- [Onload Event](/docs/kintone/js-api/events/record-print-events/onload-event)
+
+**Graph Display Events**
+- [Onload Event](/docs/kintone/js-api/events/graph-display-events/onload-event)
+
+**Portal Display Events**
+- [Onload Event](/docs/kintone/js-api/events/portal-display-events/onload-event#onload-event-desktop)
+
+<Note>
+  A `Promise` object is an object that holds a "then" method. See [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) for more details.
+</Note>
+
+### Returns
+
+Nothing
+
+### Sample
+
+```javascript
+var handler = function(event) {
+  console.log(event);
+};
+
+kintone.events.on('app.record.index.show', handler);
+
+kintone.events.on(['app.record.detail.show', 'app.record.edit.show'], handler);
+```
+
+---
+
+## Remove Event Handlers - `kintone.events.off(type, handler)`
+
+Removes event handlers from the specified event type(s).
+
+### Available Pages
+
+- [Pages Where Kintone System-wide Customizations Are Applied](/docs/kintone/js-api/overview/kintone-js-api-specifications#pages-system-wide-customization)
+- Plug-in settings page
+
+### Function
+
+```
+kintone.events.off(type, handler)
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| type | String or Array of Strings | Optional | The event type(s) to which the event handler is bound. |
+| handler | Function(Object) | Optional | The handler to remove from the specified event type(s). If omitted, all handlers are removed from the specified event type(s). If both `type` and `handler` are omitted, all handlers from all event types are removed. |
+
+### Returns
+
+`true` if any event handlers were removed.  
+`false` if no event handlers were removed.
+
+### Sample
+
+```javascript
+var handler = function(event) {
+  console.log(event);
+};
+
+kintone.events.on('app.record.index.show', handler);
+
+// Option 1: Remove the specified handler from the specified event type
+kintone.events.off('app.record.index.show', handler);
+
+// Option 2: Remove all handlers from the specified event type
+kintone.events.off('app.record.index.show');
+
+// Option 3: Remove all handlers from all event types
+kintone.events.off();
+```
+
+---
+
+## Limitations
+
+- If there are JavaScript files for both apps and plug-ins in the same app, files are loaded in the following order:
+  1. JavaScript files for apps
+  2. JavaScript files for plug-ins
+- Event handlers cannot be overwritten. The existing event handler must be deleted before adding a new one.
+- If there are multiple categories with the same name within the same App, an unintended category may be returned at the following events when returning an object containing the `category` property. To avoid this, return the object after deleting the `category` property.
+
+<AccordionGroup>
+  <Accordion title="Record List Events">
+    - [app.record.index.edit.submit](/docs/kintone/js-api/events/record-list-events/save-event)
+    - [app.record.index.edit.change.(field code)](/docs/kintone/js-api/events/record-list-events/field-change-event)
+  </Accordion>
+  <Accordion title="Record Create Events">
+    - [app.record.create.show](/docs/kintone/js-api/events/record-create-events/onload-event)
+    - [app.record.create.submit](/docs/kintone/js-api/events/record-create-events/save-event)
+    - [app.record.create.change.(field code)](/docs/kintone/js-api/events/record-create-events/field-change-event)
+    - [mobile.app.record.create.show](/docs/kintone/js-api/events/record-create-events/onload-event)
+    - [mobile.app.record.create.submit](/docs/kintone/js-api/events/record-create-events/save-event)
+    - [mobile.app.record.create.change.(field code)](/docs/kintone/js-api/events/record-create-events/field-change-event)
+  </Accordion>
+  <Accordion title="Record Edit Events">
+    - [app.record.edit.show](/docs/kintone/js-api/events/record-edit-events/onload-event#onload-event-desktop)
+    - [app.record.edit.submit](/docs/kintone/js-api/events/record-edit-events/save-event)
+    - [app.record.edit.change.(field code)](/docs/kintone/js-api/events/record-edit-events/field-change-event)
+    - [mobile.app.record.edit.show](/docs/kintone/js-api/events/record-edit-events/onload-event#onload-event-mobile)
+    - [mobile.app.record.edit.submit](/docs/kintone/js-api/events/record-edit-events/save-event)
+    - [mobile.app.record.edit.change.(field code)](/docs/kintone/js-api/events/record-edit-events/field-change-event)
+  </Accordion>
+  <Accordion title="Record Details Events">
+    - [app.record.detail.process.proceed](/docs/kintone/js-api/events/record-details-events/update-status-event)
+  </Accordion>
+</AccordionGroup>

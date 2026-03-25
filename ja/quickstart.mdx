@@ -1,0 +1,161 @@
+---
+title: "クイックスタート"
+description: "3つの簡単なステップで、kintoneのAPIを使ったUIカスタマイズとデータ取得方法の基本を学びます。"
+---
+
+## 前提: kintoneサブドメインの取得
+
+まず、kintoneのカスタマイズや連携をテストする環境を用意します。
+kintone開発者ライセンスは、開発者がkintone APIを無料で試すための環境です。
+
+[kintone開発者ライセンスを取得する](https://kintone.dev/en/developer-license-registration-form/)
+
+開発者ライセンスを取得したら、この記事に戻ってください。
+
+## Step 1: kintoneアプリの作成
+
+取得したkintone環境にログインし、次の手順にしたがってアプリを準備します。
+kintoneのポータルから「＋」アイコンをクリックし、「顧客リスト」アプリを選択します。
+確認画面で確定すると、kintone環境に「顧客リスト」アプリが追加されます。
+
+![顧客リストアプリをkintone環境に追加する様子](https://cybozu.dev/ja/kintone/getting-started/quickstart/createapp.gif)
+
+## Step 2: JavaScript API：画面のカスタマイズ
+
+JavaScript APIを使った最も簡単な例として、レコード追加時、備考フィールドの初期値に「こんにちは、kintone!」を表示してみましょう。
+アプリの設定を開き、フォームの中から備考フィールドの設定を開きます。
+フィールドコードを `note` に設定します。
+
+![備考フィールドのフィールドコードを編集する](https://cybozu.dev/ja/kintone/getting-started/quickstart/fieldcode.gif)
+
+次のコードをコピーして、`hello-kintone.js` で保存します。
+
+```javascript
+kintone.events.on('app.record.create.show', (event) => {
+  event.record.note.value = 'こんにちは、kintone!';
+  return event;
+});
+```
+
+カスタマイズファイルを適用して、レコード追加時、備考フィールドの初期値に「こんにちは、kintone!」と表示されることを確認します。
+
+![JSコードをkintoneアプリに適応する](https://cybozu.dev/ja/kintone/getting-started/quickstart/customize.gif)
+
+## Step 3: REST API：curlでkintoneのデータを取得
+
+次は、REST APIでkintone上にあるデータを取得します。
+
+### アプリIDとレコードIDの確認
+
+APIのリクエストパラメーターには、`アプリID` と `レコードID` を含める必要があります。
+これらのパラメーターを確認するには、レコード詳細画面に移動します。
+アプリIDとレコードIDは、URLに次のように表示されます。
+
+```
+https://<サブドメイン>.cybozu.com/k/<アプリID>/show#record=<レコードID>
+```
+
+例：`https://sample.cybozu.com/k/42/show#record=20` の場合
+
+| パラメーター | 値 |
+| --- | --- |
+| サブドメイン | sample |
+| アプリID | 42 |
+| レコードID | 20 |
+
+### リクエストURLの確認
+
+REST APIのURLは、次の形式です。
+
+```
+https://<サブドメイン>.cybozu.com/k/v1/record.json
+```
+
+先ほど確認したアプリIDとレコードIDを追加して、最終的なリクエストURLは次の形式になります。
+
+```
+https://<サブドメイン>.cybozu.com/k/v1/record.json?app=<アプリID>&id=<レコードID>
+```
+
+これまでの例を組み合わせると、リクエストURLは次のようになります。
+
+```
+https://sample.cybozu.com/k/v1/record.json?app=42&id=20
+```
+
+### APIトークンの生成
+
+kintone REST APIには、3つの異なる認証タイプがあります。ここでは、**APIトークン認証**を使用します。
+
+「顧客リストアプリ」の任意のページから、右上の歯車アイコンをクリックして、アプリの設定にアクセスします。
+「設定」タブを開き、「APIトークン」をクリックします。
+新しいトークンを生成し、「保存」をクリックしてから「アプリを更新」をクリックします。
+
+![kintoneアプリで新しいAPIトークンを生成する様子](https://cybozu.dev/ja/kintone/getting-started/quickstart/apitoken.gif)
+
+<Warning>「アプリを更新」ボタンをクリックしないと、APIトークンはアプリで使用できません。</Warning>
+
+### データの取得
+
+これで、次の情報が準備できました。
+
+- アプリIDとレコードID
+- リクエストURL
+- APIトークン
+
+この情報を使用して、レコードデータを取得するcURLコマンドを次のように組み立てます。
+APIトークンで認証する場合は、**X-Cybozu-API-Token** ヘッダーを使用します。
+
+```bash
+curl -X GET -H 'X-Cybozu-API-Token:<APIトークン>' \
+  'https://<サブドメイン>.cybozu.com/k/v1/record.json?app=<アプリID>&id=<レコードID>'
+```
+
+たとえば、サブドメイン **sample** のアプリ **42** のレコード **20** のデータを、APIトークン `DjsLvFiyqwDTDxJJSXnNiAuGARpPMnUIYzFluegQ` で取得する場合：
+
+```bash
+curl -X GET -H 'X-Cybozu-API-Token:DjsLvFiyqwDTDxJJSXnNiAuGARpPMnUIYzFluegQ' \
+  'https://sample.cybozu.com/k/v1/record.json?app=42&id=20'
+```
+
+このコマンドを実行すると、指定されたレコードのデータがJSON形式で返されます。
+
+```json
+{
+  "record": {
+    "備考": { "type": "MULTI_LINE_TEXT", "value": "" },
+    "レコード番号": { "type": "RECORD_NUMBER", "value": "20" },
+    "更新者": {
+      "type": "MODIFIER",
+      "value": { "code": "yukako-dambara", "name": "後藤 彩子" }
+    },
+    "作成者": {
+      "type": "CREATOR",
+      "value": { "code": "yukako-dambara", "name": "後藤 彩子" }
+    },
+    "郵便番号": { "type": "SINGLE_LINE_TEXT", "value": "5010001" },
+    "部署名": { "type": "SINGLE_LINE_TEXT", "value": "情報システム部" },
+    "担当者名": { "type": "SINGLE_LINE_TEXT", "value": "下山 達士" },
+    "メールアドレス": { "type": "SINGLE_LINE_TEXT", "value": "shimoyama_tatsuhito@example.com" },
+    "顧客ランク": { "type": "DROP_DOWN", "value": "A" },
+    "住所": { "type": "SINGLE_LINE_TEXT", "value": "岐阜県岐阜市××××" },
+    "TEL": { "type": "SINGLE_LINE_TEXT", "value": "090-××××-××××" },
+    "会社名": { "type": "SINGLE_LINE_TEXT", "value": "金都運総研" },
+    "$id": { "type": "__ID__", "value": "20" }
+  }
+}
+```
+
+レスポンスの最初のプロパティは **record** です。**record** プロパティ内のプロパティは、レコード内に存在するフィールドで、特定の順序はありません。
+
+たとえば、`"部署名":{"type":"SINGLE_LINE_TEXT","value":"情報システム部"}` は、フィールドコード **部署名** が文字列（1行）フィールドで、値が「情報システム部」であることを示しています。
+
+## まとめ
+
+わずか4つの簡単なステップで、kintoneのJavaScript APIでのUIカスタマイズとREST APIを使ったデータ取得ができました。
+kintoneアプリには、新しいレコードを追加したり、既存のレコードを更新したりするAPIなど、他にも多くのAPIがあります。
+
+## 次のステップ
+
+- [チュートリアル：はじめようkintone API](/ja/tutorials/hello-kinapi)
+- [kintone開発前によくある質問](/ja/kintone/getting-started/faq)

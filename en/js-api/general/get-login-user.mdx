@@ -1,0 +1,81 @@
+---
+title: "Get Logged-in User"
+description: "Retrieves the user information of the user that is currently viewing the page."
+---
+
+## `kintone.getLoginUser()`
+
+Retrieves the user information of the user that is currently viewing the page.
+
+### Function
+
+```
+kintone.getLoginUser()
+```
+
+### Returns
+
+| Property | Type | Description |
+| --- | --- | --- |
+| id | String | User ID. Auto incremented by the service. |
+| code | String | Login name. For guest users, this will be their email. |
+| name | String | Display name. |
+| email | String | E-mail address. |
+| url | String | URL. Blank for guest users. |
+| employeeNumber | String | Employee ID. Blank for guest users. |
+| phone | String | Phone number. |
+| mobilePhone | String | Mobile phone number. Blank for guest users. |
+| extensionNumber | String | Extension number. Blank for guest users. |
+| timezone | String | Time zone. |
+| isGuest | Boolean | `true` for guest users, `false` for non-guest users. |
+| language | String | Language selected in the Language & Time Zone settings. See values below. |
+
+**`language` values**
+
+| Value | Language |
+| --- | --- |
+| `en` | English |
+| `ja` | Japanese |
+| `zh` | Chinese (Simplified) |
+| `zh-TW` | Chinese (Traditional) |
+| `es` | Spanish |
+| `pt-BR` | Brazilian Portuguese |
+| `th` | Thai |
+
+<Note>
+  For other languages, or whether the language is set to **Use Web browser settings** or not set, the returned value will be `en`.
+</Note>
+
+### Sample
+
+```javascript
+var user = kintone.getLoginUser();
+console.log(user);
+
+// returns
+// {
+//   'id': '7',
+//   'code': 'john-d',
+//   'name': 'John Doe',
+//   'email': 'johndoe@kintone.com',
+//   'url': 'http://www.kintone.com',
+//   'employeeNumber': '100',
+//   'phone': '415-000-0000',
+//   'mobilePhone': '400-000-0000',
+//   'extensionNumber': '1001',
+//   'timezone': 'America/Los_Angeles',
+//   'isGuest': false,
+//   'language': 'en'
+// }
+```
+
+### Available Pages
+
+- [Pages Where Kintone System-wide Customizations Are Applied](/docs/kintone/js-api/overview/kintone-js-api-specifications#pages-system-wide-customization)
+- Plug-in settings page
+
+## Limitations
+
+<Warning>
+  This API cannot be initiated from apps attached to bodies of Spaces, Threads, or Announcements.
+</Warning>

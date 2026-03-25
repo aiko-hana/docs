@@ -1,0 +1,174 @@
+---
+title: "Quick Start"
+description: "Learn how to use curl to retrieve record data from a Kintone App using the REST API."
+---
+
+![A flow of the 4 steps to get record data from a Kintone App.](https://kintone.dev/en/quickstart/overview.png)
+
+## Overview
+
+The Kintone REST API enables Records, Apps and Spaces to be controlled from external services.
+This article introduces how to use curl to run the **Get Record API** from a command line tool, to retrieve record data from a Kintone App. Refer to the following article for more details on the **Get Record API**:
+
+[Get Record API](/docs/kintone/rest-api/records/get-record)
+
+## Step 1. Get a Kintone subdomain
+
+A Kintone subdomain is necessary for testing out customizations and integrations involving Kintone. A free one-year Kintone developer license is available for members who join the Kintone Developer Program. Refer to the following page to apply for a free Kintone developer license:
+
+[Developer License Registration Form](https://kintone.dev/en/developer-license-registration-form/)
+
+Return to this article when the developer license has been acquired. Alternatively, you can sign up for a free trial environment from the Kintone website:
+
+[Start Your 30-Day Free Trial](https://www.kintone.com/en-us/trial/)
+
+## Step 2. Prepare a Kintone App
+
+Before retrieving data from a Kintone record, a Kintone App and at least one record needs to be created. Log into the Kintone subdomain with the credentials provided with sign up, and follow these instructions to prepare an App.
+
+1. In the portal, click the **[+]** icon of the Apps widget, select **Customer Service** from the left menu, find the **Customer Database** App and click on **Add This App**. Confirm the prompt, to successfully add a Customer Database App into your Kintone environment.
+
+   ![Animated GIF: User adds a Customer Database App into the Kintone environment.](https://kintone.dev/en/quickstart/createapp.gif)
+
+2. In the portal, click on the **Customer Database** App, located in the Apps widget. If there is no data in the App yet, the record list will be empty. Click on the **[+]** icon to start adding data into a new record. Clicking on **Save** will successfully add the new record into the App.
+
+   ![Animated GIF: User navigates to the Kintone App, and adds a new record.](https://kintone.dev/en/quickstart/createrecord.gif)
+
+## Step 3. Generate an API token and prepare the request parameters
+
+This step prepares the necessary information to call a REST API request, by preparing the necessary request parameters, and generating an API token from the Kintone App.
+
+### 1. Confirm the App ID and record ID
+
+An App ID and a Record ID needs to be included in the request. To confirm these parameters, navigate to the record details page.
+
+The App ID and record ID are shown in the URL as follows:
+
+```
+https://<SUBDOMAIN>.kintone.com/k/<App ID>/show#record=<RECORD ID>
+```
+
+For example, the App ID of the following Kintone subdomain called **example** is **42**, and the record ID is **8**.
+
+```
+https://example.kintone.com/k/42/show#record=8
+```
+
+### 2. Confirm the request URL
+
+The request URI for the REST API call is in the format of:
+
+```
+https://<SUBDOMAIN>.kintone.com/k/v1/record.json
+```
+
+Therefore, for a Kintone subdomain called **example**, the URL to send the request to would be:
+
+```
+https://example.kintone.com/k/v1/record.json
+```
+
+Add the request parameters from the previous step to form the final request URI, in the following format:
+
+```
+https://<SUBDOMAIN>.kintone.com/k/v1/record.json?app=<APP ID>&id=<RECORD ID>
+```
+
+Combining the examples used so far, the request URI for this example would be:
+
+```
+https://example.kintone.com/k/v1/record.json?app=42&id=8
+```
+
+### 3. Generate an API token
+
+There are three different types of authentication that can be used for the Kintone REST API: **password authentication**, **API token authentication**, and **session authentication**. Refer to the Authentication section of the following article for more details:
+
+[Kintone REST API Overview](/docs/kintone/rest-api/overview/kintone-rest-api-overview#authentication)
+
+This example will use **API token authentication**. To generate an API token from the App, first navigate to the Customer Database App created in the previous step. From any page within the App, click on the gear icon located in the top right corner of the App to access the settings of the App. Navigate to the **App Settings** tab, and click on **API Token**. Generate a new token, click **Save**, and click on **Update App**.
+
+![Animated GIF: User generates a new API token for the Kintone App.](https://kintone.dev/en/quickstart/apitoken.gif)
+
+<Note>The **Update App** button *must* be clicked for the API Token to be useable with the App.</Note>
+
+## Step 4. Retrieve the data
+
+The following information should now have been prepared:
+
+- An App ID and a record ID
+- A request URL
+- An API token
+
+With this information, assemble the curl command to retrieve the record data as follows. The `X-Cybozu-API-Token` header is used when authenticating with an API token.
+
+```bash
+curl -X GET -H 'X-Cybozu-API-Token:<API Token>' \
+  'https://<SUBDOMAIN>.kintone.com/k/v1/record.json?app=<App ID>&id=<Record ID>'
+```
+
+For example, retrieving the data of record **8** in App **42**, with an API token of `DjsLvFiyqwDTDxJJSXnNiAuGARpPMnUIYzFluegQ`, in the subdomain **example**:
+
+```bash
+curl -X GET -H 'X-Cybozu-API-Token:DjsLvFiyqwDTDxJJSXnNiAuGARpPMnUIYzFluegQ' \
+  'https://example.kintone.com/k/v1/record.json?app=42&id=8'
+```
+
+Running this command will result in the command line tool responding with the data of the specified record in JSON format:
+
+```json
+{
+  "record": {
+    "contact_name": { "type": "SINGLE_LINE_TEXT", "value": "Joshua" },
+    "address": { "type": "SINGLE_LINE_TEXT", "value": "1234 Yum street." },
+    "notes": { "type": "MULTI_LINE_TEXT", "value": "" },
+    "Last_user": {
+      "type": "MODIFIER",
+      "value": { "code": "Krispy", "name": "Krispy" }
+    },
+    "company_website": {
+      "type": "LINK",
+      "value": "https://www.shuaburgers.com/"
+    },
+    "telephone_number": { "type": "LINK", "value": "1234567890" },
+    "$revision": { "type": "__REVISION__", "value": "1" },
+    "Single_line_text_1": {
+      "type": "SINGLE_LINE_TEXT",
+      "value": "Delicious burgers!"
+    },
+    "Updated_datetime": {
+      "type": "UPDATED_TIME",
+      "value": "2019-04-08T08:24:00Z"
+    },
+    "Created_datetime": {
+      "type": "CREATED_TIME",
+      "value": "2019-04-08T08:24:00Z"
+    },
+    "company_name": {
+      "type": "SINGLE_LINE_TEXT",
+      "value": "Joshua's Burger Joint"
+    },
+    "Record_number": { "type": "RECORD_NUMBER", "value": "1" },
+    "Author": {
+      "type": "CREATOR",
+      "value": { "code": "Krispy", "name": "Krispy" }
+    },
+    "department": { "type": "SINGLE_LINE_TEXT", "value": "Administration" },
+    "job_title": { "type": "SINGLE_LINE_TEXT", "value": "CEO" },
+    "representative": {
+      "type": "USER_SELECT",
+      "value": [{ "code": "Krispy", "name": "Krispy" }]
+    },
+    "email": { "type": "LINK", "value": "shua@shuaburgers.com" },
+    "$id": { "type": "__ID__", "value": "1" }
+  }
+}
+```
+
+The first property of the response is **record**. The properties within the **record** property are the fields that exist in the record in no particular order. For example, `"company_name":{"type":"SINGLE_LINE_TEXT","value":"Joshua's Burger Joint"}` shows that the field with the field code **company_name** is a **Text** field with a value of "Joshua's Burger Joint".
+
+## Reference
+
+In four easy steps, the Kintone REST API was used to retrieve record data from a Kintone App using curl. There are many other APIs for Kintone Apps, such as APIs for adding new records, or updating existing records. Refer to the following page for more details:
+
+[Kintone REST API Overview](/docs/kintone/rest-api/overview/kintone-rest-api-overview)
