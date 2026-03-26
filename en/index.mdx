@@ -1,97 +1,133 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "kintone Developer Platform"
+description: "Build powerful business applications with APIs, JavaScript customization, and extensibility"
+mode: "custom"
 ---
 
-## Setting up
+<div className="landing-page-wrapper">
+<div className="hero-section px-4 py-16 lg:py-32 max-w-5xl mx-auto text-center">
+  <h1 className="text-5xl lg:text-6xl font-bold text-zinc-50 tracking-tight leading-tight">
+    Build business apps
+    <br />
+　    <span className="hero-yellow">at kintone</span>
+  </h1>
+  <p className="mt-6 text-lg lg:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+    kintone is a low-code platform with developer superpowers. Build with REST APIs, JavaScript customization, and webhooks to create exactly what your business needs.
+  </p>
+  <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
+    <a href="/quickstart" className="cta-primary px-8 py-3 rounded-lg font-medium text-base transition-all">
+      Get started
+    </a>
+    <a href="/api-reference/introduction" className="cta-secondary px-8 py-3 rounded-lg font-medium text-base transition-all">
+      Explore APIs
+    </a>
+  </div>
+</div>
 
-Get your documentation site up and running in minutes.
+<div className="features-section px-6 py-20 max-w-6xl mx-auto">
+  <div className="grid md:grid-cols-3 gap-6">
+    <div className="feature-card p-8 rounded-xl">
+      <div className="feature-icon mb-4 text-3xl">⚡</div>
+      <h3 className="text-xl font-semibold text-zinc-50 mb-3">REST API</h3>
+      <p className="text-zinc-400 leading-relaxed mb-4">
+        Full-featured REST API to create, read, update, and manage your kintone apps and data programmatically.
+      </p>
+      <a href="/api-reference/introduction" className="feature-link text-sm font-medium">
+        View API docs →
+      </a>
+    </div>
+    
+    <div className="feature-card p-8 rounded-xl">
+      <div className="feature-icon mb-4 text-3xl">🎨</div>
+      <h3 className="text-xl font-semibold text-zinc-50 mb-3">JavaScript Customization</h3>
+      <p className="text-zinc-400 leading-relaxed mb-4">
+        Customize app behavior and UI with JavaScript. Hook into events, manipulate the DOM, and integrate with external services.
+      </p>
+      <a href="/js-api/event/event-handling" className="feature-link text-sm font-medium">
+        Learn JavaScript API →
+      </a>
+    </div>
+    
+    <div className="feature-card p-8 rounded-xl">
+      <div className="feature-icon mb-4 text-3xl">🔌</div>
+      <h3 className="text-xl font-semibold text-zinc-50 mb-3">Webhooks & Extensions</h3>
+      <p className="text-zinc-400 leading-relaxed mb-4">
+        React to app events in real-time with webhooks. Build plugins and extensions to add new capabilities.
+      </p>
+      <a href="/development" className="feature-link text-sm font-medium">
+        Start building →
+      </a>
+    </div>
+  </div>
+</div>
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
+<div className="quickstart-section px-6 py-20 max-w-4xl mx-auto text-center">
+  <h2 className="text-3xl lg:text-4xl font-bold text-zinc-50 mb-4">
+    Start building in minutes
+  </h2>
+  <p className="text-lg text-zinc-400 mb-10">
+    Get up and running with kintone APIs in three simple steps
+  </p>
+  
+  <Columns cols={3}>
     <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+      title="1. Get credentials"
+      icon="key"
+      href="/quickstart#step-1"
+    >
+      Generate your API token from kintone settings
+    </Card>
+    <Card
+      title="2. Make your first call"
+      icon="code"
+      href="/quickstart#step-2"
+    >
+      Fetch data with a simple REST API request
+    </Card>
+    <Card
+      title="3. Customize & extend"
+      icon="rocket"
+      href="/js-api/event/event-handling"
+    >
+      Add JavaScript to enhance your apps
+    </Card>
+  </Columns>
+</div>
 
-## Create beautiful pages
-
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<div className="resources-section px-6 py-20 max-w-6xl mx-auto">
+  <h2 className="text-3xl font-bold text-zinc-50 mb-12 text-center">
+    Everything you need to build
+  </h2>
+  
+  <Columns cols={2}>
+    <Card
+      title="REST API Reference"
+      icon="terminal"
+      href="/api-reference/introduction"
+    >
+      Complete API documentation with examples and use cases
+    </Card>
+    <Card
+      title="JavaScript API"
+      icon="brackets-curly"
+      href="/js-api/event/event-handling"
+    >
+      Client-side APIs for customizing app behavior and UI
+    </Card>
+    <Card
+      title="Guides & Tutorials"
+      icon="book-open"
+      href="/quickstart"
+    >
+      Step-by-step guides to common integration patterns
+    </Card>
+    <Card
+      title="Code Examples"
+      icon="code"
+      href="/essentials/code"
+    >
+      Ready-to-use code snippets for your projects
+    </Card>
+  </Columns>
+</div>
+</div>

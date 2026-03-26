@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "cybozu developer network",
+  "name": "kintone Developer Platform",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
@@ -12,14 +12,14 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "API Reference",
+          "href": "/api-reference/introduction",
+          "icon": "code"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "GitHub",
+          "href": "https://github.com/kintone",
+          "icon": "github"
         }
       ]
     },
@@ -33,7 +33,7 @@
               {
                 "group": "Getting started",
                 "pages": [
-                  "en/index",
+                  "en/introduction",
                   "en/quickstart",
                   "en/development"
                 ]
@@ -101,7 +101,7 @@
               {
                 "group": "はじめに",
                 "pages": [
-                  "ja/index",
+                  "ja/introduction",
                   "ja/quickstart",
                   "ja/development"
                 ]
@@ -163,14 +163,18 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Home",
+        "href": "/en/home"
+      },
+      {
+        "label": "Community",
+        "href": "https://developer.cybozu.io/hc/en-us/community/topics"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Get Started",
+      "href": "/quickstart"
     }
   },
   "contextual": {
@@ -191,5 +195,11 @@
       "github": "https://github.com/mintlify",
       "linkedin": "https://linkedin.com/company/mintlify"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/home",
+      "destination": "/index"
+    }
+  ]
 }

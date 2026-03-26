@@ -1,0 +1,132 @@
+/* kintone Developer Platform - Dark Theme Styling */
+
+:root {
+  --kintone-accent: #ffbf00;
+  --kintone-accent-hover: #ffbf00;
+  --bg-black: #09090b;
+  --bg-dark: #18181b;
+  --border-dark: #27272a;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+}
+
+/* Landing Page Wrapper (for custom mode pages only) */
+.landing-page-wrapper {
+  background: var(--bg-black);
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(180deg, var(--bg-black) 0%, var(--bg-dark) 100%);
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, var(--kintone-accent) 0%, #07C983 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-yellow {
+  color: #ffbf00;
+}
+
+/* CTA Buttons */
+.cta-primary {
+  background: var(--kintone-accent);
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(22, 163, 74, 0.25);
+}
+
+.cta-primary:hover {
+  background: var(--kintone-accent-hover);
+  box-shadow: 0 6px 20px 0 rgba(22, 163, 74, 0.35);
+  transform: translateY(-1px);
+}
+
+.cta-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-dark);
+}
+
+.cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-secondary);
+}
+
+/* Feature Cards */
+.features-section {
+  background: var(--bg-black);
+}
+
+.feature-card {
+  background: var(--bg-dark);
+  border: 1px solid var(--border-dark);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  border-color: var(--text-secondary);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.feature-icon {
+  filter: grayscale(0.3);
+}
+
+.feature-link {
+  color: var(--kintone-accent);
+  transition: color 0.2s ease;
+}
+
+.feature-link:hover {
+  color: #07C983;
+}
+
+/* Quickstart Section */
+.quickstart-section {
+  background: linear-gradient(180deg, var(--bg-black) 0%, var(--bg-dark) 50%, var(--bg-black) 100%);
+  border-top: 1px solid var(--border-dark);
+  border-bottom: 1px solid var(--border-dark);
+}
+
+/* Resources Section */
+.resources-section {
+  background: var(--bg-dark);
+}
+
+/* Cards within custom sections (for landing page only) */
+.features-section .feature-card,
+.resources-section .card {
+  background: var(--bg-dark);
+  border-color: var(--border-dark);
+}
+
+/* Resources section card text colors */
+.resources-section .card h3 {
+  color: var(--text-primary) !important;
+}
+
+.resources-section .card p,
+.resources-section .card div {
+  color: var(--text-secondary) !important;
+}
+
+/* Quickstart section card text colors */
+.quickstart-section .card h3 {
+  color: var(--text-primary) !important;
+}
+
+.quickstart-section .card p,
+.quickstart-section .card div {
+  color: var(--text-secondary) !important;
+}
+
+/* Smooth transitions for all interactive elements */
+a, button {
+  transition: all 0.2s ease;
+}
